@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false">
+    <springProperty scope="context" name="logstashHost" source="logging.logstash-host"/>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="application"/>
+
+    <property name="LOG_PATH" value="/var/log/${appName}"/>
+    <property name="LOG_FILE" value="${LOG_PATH}/${appName}.log"/>
+    <property name="LOG_FILE_PATTERN" value="${LOG_PATH}/${appName}-%d.%i.log"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <logger level="info" name="com.github.isrsal.logging.LoggingFilter"/>
+
+    <springProfile name="default">
+
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>${logstashHost}</destination>
+            <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+
+</configuration>

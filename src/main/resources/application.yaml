@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-boot-logstash
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      username: nacos
+      password: nacos
+      config:
+        namespace: a5fde573-4dbc-4dc3-b4dd-80dccd58d0a4
+        group: elk
+        file-extension: yaml
+
+logging:
+  logstash-host: 127.0.0.1:5044

@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.9'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'io.arukas'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springBoot = '2.7.12'
+    springCloud = '2021.0.9'
+    springCloudAlibaba = '2021.0.6.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBoot}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloud}"
+        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibaba}"
+    }
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
+    implementation "com.alibaba.nacos:nacos-client:2.2.3"
+    implementation "net.logstash.logback:logstash-logback-encoder:7.3"
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-core
+    implementation 'org.apache.tika:tika-core:2.8.0'
+    implementation 'org.apache.tika:tika-parsers:2.8.0'
+
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//var JAVA_HOME = System.getenv("JAVA_HOME");
+//tasks.withType(JavaCompile::class) {
+//	options.bootstrapClasspath = fileTree("$JAVA_HOME/jre/lib/rt.jar")
+//}
+
+wrapper {
+    distributionUrl = 'https://mirrors.huaweicloud.com/gradle/gradle-7.6-bin.zip'
+}
