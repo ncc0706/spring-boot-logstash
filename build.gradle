@@ -20,8 +20,8 @@ repositories {
 
 ext {
     springBoot = '2.7.12'
-    springCloud = '2021.0.9'
-    springCloudAlibaba = '2021.0.6.0'
+    springCloud = '2021.0.6'
+    springCloudAlibaba = '2021.0.6.1'
 }
 
 dependencyManagement {

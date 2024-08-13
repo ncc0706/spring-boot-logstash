@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="false">
+<configuration scan="false" debug="false">
     <springProperty scope="context" name="logstashHost" source="logging.logstash-host"/>
     <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="application"/>
 
@@ -16,11 +16,27 @@
 
         <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
             <destination>${logstashHost}</destination>
-            <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+            <!--
+            https://github.com/logfellow/logstash-logback-encoder/issues/54
+
+            https://blog.csdn.net/pan4609/article/details/114653776
+            -->
+            <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"serviceId":"sss", "appname": "${appName}", "tags": ["test"]}</customFields>
+                <!--<customFields>{"serviceId":"sss", "tags": ["flink_cdc"]}</customFields>-->
+                <!--<provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
+                    <pattern>
+                        {
+                        "tags": ["cdc"]
+                        }
+                    </pattern>
+                </provider>-->
+            </encoder>
         </appender>
 
         <root level="info">
             <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="LOGSTASH"/>
         </root>
     </springProfile>
 

@@ -15,6 +15,7 @@ public class SpringBootSamplesApplication {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static void main(String[] args) {
+//        System.setProperty("nacos.logging.default.config.enabled", "false");
         SpringApplication.run(SpringBootSamplesApplication.class, args);
     }
 
@@ -23,7 +24,7 @@ public class SpringBootSamplesApplication {
 
     @GetMapping("info")
     public void info() {
-        logger.info("form nacos {}", value);
+        logger.info(" cdcx form nacos {}", value);
     }
 
 }
